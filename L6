@@ -1,0 +1,72 @@
+app.jsx
+
+import { useState } from "react";
+import "./index.css";
+export default function Form() {
+  const [d, sD] = useState({ name: "", email: "", password: "" }),
+    [show, sShow] = useState(false),
+    [sub, sSub] = useState(null);
+  const err =
+    !d.name || !d.email || !d.password
+      ? "Fill all fields"
+      : !/\S+@\S+\.\S+/.test(d.email)
+      ? "Invalid Email"
+      : !/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/.test(d.password)
+      ? "Weak Password"
+      : "";
+  const submit = (e) => {
+    e.preventDefault();
+    !err && (sSub(d), sD({ name: "", email: "", password: "" }));
+  };
+  return (
+    <div className="form-container">
+      <h2>Registration Form</h2>
+      <form onSubmit={submit}>
+        {["name", "email", "password"].map((f) => (
+          <input
+            key={f}
+            type={f === "password" && !show ? "password" : "text"}
+            placeholder={f}
+            value={d[f]}
+            onChange={(e) => sD({ ...d, [f]: e.target.value })}
+          />
+        ))}
+        <label>
+          <input type="checkbox" onChange={() => sShow(!show)} />
+          Show Password
+        </label>
+        <p className="error">{err}</p>
+        <button>Submit</button>
+      </form>
+      {sub && (
+        <div>
+          <p>Name: {sub.name}</p>
+          <p>Email: {sub.email}</p>
+          <p>Password: {sub.password}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+index.css
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:Arial;
+  background:#f4f4f4;
+}
+input,button{
+  width:100%;
+  padding:8px;
+  margin:8px 0;
+  box-sizing:border-box;
+}
+.error-message{
+  color:red;
+  font-size:12px;
+}

@@ -1,0 +1,87 @@
+*App.jsx*
+
+import FigureList from "./FigureList";
+function App() {
+  return (
+    <div>
+      <FigureList />
+    </div>
+  );
+}
+export default App;
+
+*BasicFigure.jsx*
+
+const BasicFigure = ({ src, caption, onRemove }) => {
+  return (
+    <div className="image-card">
+      <img src={src} alt="Gallery" />
+      <div className="caption">{caption}</div>
+      <button onClick={onRemove}>Remove</button>
+    </div>
+  );
+};
+export default BasicFigure;
+
+
+*FigureList.jsx*
+
+import { useState } from "react";
+import BasicFigure from "./BasicFigure";
+import "./FigureList.css";
+
+export default function FigureList() {
+  const [imgs, setImgs] = useState([
+    { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e", caption: "Image 1" },
+    { src: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107", caption: "Image 2" },
+    { src: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0", caption: "Image 3" }
+  ]);
+
+  return (
+    <div className="container">
+      <h1>Dynamic Image Gallery</h1>
+
+      <button onClick={() =>
+        setImgs(i => [...i, {
+          src: `https://picsum.photos/400/300?random=${Math.random()*1000|0}`,
+          caption: `Image ${i.length + 1}`
+        }])
+      }>
+        Add Image
+      </button>
+
+      <div className="gallery">
+        {imgs.map((img, i) => (
+          <BasicFigure
+            key={i}
+            {...img}
+            onRemove={() => setImgs(a => a.filter((_, x) => x !== i))}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+*index.css*
+
+.image-card{width:180px;height:180px;text-align:center;overflow:hidden;border-radius:10px;background:#fff;box-shadow:2px 2px 10px rgba(0,0,0,.1);transition:.3s}
+.image-card:hover{transform:scale(1.05)}
+.image-card img{width:100%;height:55%;object-fit:cover;border-radius:10px 10px 0 0}
+.caption{padding:5px;font:700 14px sans-serif}
+
+*FigurList.css*
+
+.container { text-align:center; padding:20px; }
+
+button {
+  margin:10px; padding:8px 12px;
+  border:none; cursor:pointer;
+  background:green; color:#fff; border-radius:5px;
+}
+button:hover { background:darkgreen; }
+
+.gallery {
+  display:flex; flex-wrap:wrap;
+  justify-content:center; gap:15px;
+}

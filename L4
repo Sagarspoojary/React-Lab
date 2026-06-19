@@ -1,0 +1,24 @@
+import { useState } from "react";
+export default function ToDoFunction(){
+  const [t,setT]=useState([]),[i,setI]=useState("");
+  return(
+    <div style={{textAlign:"center"}}>
+      <h1>React To-Do List</h1>
+      <input value={i} onChange={e=>setI(e.target.value)} placeholder="Enter a task..." />
+      <button onClick={()=>{
+        i.trim()&&setT([...t,{text:i,completed:false}]);
+        setI("");
+      }}>Add Task</button>
+      <ul style={{listStyle:"none",padding:0}}>
+        {t.map((x,j)=>(
+          <li key={j} style={{textDecoration:x.completed?"line-through":"none"}}>
+            <span onClick={()=>setT(t.map((a,k)=>k===j?{...a,completed:!a.completed}:a))}>
+              {j+1}. {x.completed?"✅":"❌"} {x.text}
+            </span>
+            <button onClick={()=>setT(t.filter((_,k)=>k!==j))}>🪣</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
