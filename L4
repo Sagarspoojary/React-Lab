@@ -21,9 +21,7 @@ export default function ToDo() {
       {tasks.map((t, i) => (
         <div key={i}>
           <span
-            style={{
-              textDecoration: t.done ? "line-through" : "none",
-            }}
+            style={{textDecoration: t.done ? "line-through" : "none",}}
             onClick={() => {
               t.done = !t.done;
               setTasks([...tasks]);
