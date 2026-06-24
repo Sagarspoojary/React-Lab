@@ -10,8 +10,7 @@ export default function ToDo() {
         onChange={(e) => setTask(e.target.value)}
         placeholder="Enter a task..."
       />
-      <button
-        onClick={() => {
+      <button onClick={() => {
           setTasks([...tasks, { text: task, done: false }]);
           setTask("");
         }}
